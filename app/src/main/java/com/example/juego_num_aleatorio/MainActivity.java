@@ -1,7 +1,10 @@
 package com.example.juego_num_aleatorio;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -22,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
     int nm;
 
     int intentos = 0;
-    int puntuacion = 10;
+    double puntuacion = 10;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,12 +44,13 @@ public class MainActivity extends AppCompatActivity {
                     if (nm == n) {
                         String s2 = ("Has adivinado el numero, FELICIDADES. \nTu puntuacion es: " + puntuacion);
                         Toast.makeText(getApplicationContext(), s2, Toast.LENGTH_SHORT).show();
+                        Dialogo();
 
                     } else {
                         intentos++;
-                        puntuacion--;
+                        puntuacion = puntuacion - 0.5;
                         if (nm < n) {
-                            String s1 = ("Fallos: " + intentos + "\nPuntuacion: " + puntuacion + "\nEl numero es mayor al introducido" +n);
+                            String s1 = ("Fallos: " + intentos + "\nPuntuacion: " + puntuacion + "\nEl numero es mayor al introducido");
                             Toast.makeText(getApplicationContext(), s1, Toast.LENGTH_SHORT).show();
                         } else {
                             String s1 = ("Fallos: " + intentos + "\nPuntuacion: " + puntuacion + "\nEl numero es menor al introducido");
@@ -62,5 +66,26 @@ public class MainActivity extends AppCompatActivity {
                 }
 
         });
+    }
+
+    private void Dialogo() {
+        final AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+        builder.setTitle("Puntuacion: "+ puntuacion);
+        final Ranking b = new Ranking();
+        final EditText et = new EditText(MainActivity.this);
+        builder.setView(et);
+        final String nombre = et.getText().toString();
+        builder.setMessage("Introduzca su nombre")
+        .setPositiveButton("Introducir", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Intent intent = new Intent(MainActivity.this, Ranking.class);
+                intent.putExtra("nombre", et.getText());
+                startActivity(intent);
+
+            }
+        })
+                .setCancelable(false)
+                .show();
     }
 }
