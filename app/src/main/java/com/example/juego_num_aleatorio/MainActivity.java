@@ -76,16 +76,21 @@ public class MainActivity extends AppCompatActivity {
         builder.setView(et);
         final String nombre = et.getText().toString();
         builder.setMessage("Introduzca su nombre")
+                /*
         .setPositiveButton("Introducir", new DialogInterface.OnClickListener() {
             @Override
+
             public void onClick(DialogInterface dialog, int which) {
                 Intent intent = new Intent(MainActivity.this, Ranking.class);
                 intent.putExtra("nombre", et.getText());
                 startActivity(intent);
-
             }
         })
+        */
+
                 .setCancelable(false)
                 .show();
     }
+
+
 }
